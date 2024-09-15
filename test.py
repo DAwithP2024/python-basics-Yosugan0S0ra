@@ -60,95 +60,58 @@ def validate_email(email):
 def display_products(products_list):
     while True:
         try:
-            wanna = input("Enter the category number: ")
-            if wanna.isdigit():
-                wanna = int(wanna)
-                if 0 < wanna <= len(products_list):
-                    category = products_list[wanna - 1]
-                    print(f"\nProducts in '{category}':")
-                    product_list = []
-                    for index, (product, price) in enumerate(products[category]):
-                        product_list.append((index, product, price))
-                        print(f"{index + 1}. Product: {product}, Price: ${price}")
-                    return product_list
-                else:
-                    print("Invalid category number, please retry.")
+            wanna = int(input("Enter the category number: "))
+            if 0 < wanna <= len(products_list):
+                category = products_list[wanna-1]
+                print(f"\nProducts in '{category}':")
+                product_list = []
+                for index,(product,price) in enumerate(products[category]):
+                    product_list.append((index, product, price))
+                    print(f"{index+1}Product: {product}, Price: ${price}")
+                return product_list
             else:
-                print("Invalid input. Please enter a number.")
+                print("Invalid category number,plz retry")
         except ValueError:
             print("Invalid input. Please enter a number.")
 
-
 def display_categories():
-    print("Now showing the categories:\n")
+    print("now show the categories:\n")
     categories_list = list(products.keys())
     for index, category in enumerate(categories_list):
-        print(f"{index + 1}: {category}")
-    
-    try:
-        wanna = int(input("Enter the category number: "))
-        if 0 < wanna <= len(categories_list):
-            return wanna - 1
-        else:
-            print("Invalid category number, please retry.")
-            return None
-    except ValueError:
-        print("Invalid input. Please enter a number.")
-        return None
+        print(f"{index+1}: {category}")
+    display_products(categories_list)
+
 
 
 
 def add_to_cart(cart, product, quantity):
-    if isinstance(quantity, int) and quantity > 0:
-        cart.append((product[0], product[1], quantity))
-        print("Successfully added to cart!")
+    if quantity.isdigit() and int(quantity) > 0 :
+        cart.append({'product': product, 'quantity': int(quantity)})
+        print("successful!")
         for index, item in enumerate(cart):
-            product_name = item[0]
-            price = item[1]
-            quantity = item[2]
-            print(f"{index + 1}. Product: {product_name}, Price: ${price}, Quantity: {quantity}")
-    else:
-        print("Invalid quantity. Please enter a positive integer.")
-
-
-
+            product = item['product']
+            quantity = item['quantity']
+            print(f"{index + 1}. Product: {product}, Quantity: {quantity}")
 def display_cart(cart):
     if not cart:
         print("Your cart is empty.")
         return
     
-    total_cost = 0
-    cart_items = []
-    for item in cart:
-        product_name, price, quantity = item
-        cost = price * quantity
-        total_cost += cost
-        cart_items.append(f"{product_name} - ${price} x {quantity} = ${cost}")
-
-    for item in cart_items:
-        print(item)
-    
-    print(f"Total cost: ${total_cost}")
-
+    print("Your cart contains:")
+    for index, item in enumerate(cart):
+        product = item['product']
+        quantity = item['quantity']
+        print(f"{index + 1}. Product: {product}, Quantity: {quantity}")
 
 
 def generate_receipt(name, email, cart, total_cost, address):
     pass
 
 def display_sorted_products(products_list, sort_order):
-    if sort_order == "asc":
-        sorted_list = sorted(products_list, key=lambda x: x[1])
-    elif sort_order == "desc":
-        sorted_list = sorted(products_list, key=lambda x: x[1], reverse=True)
-    else:
-        print("invalid。")
-        return []
-
-    for index, (product, price) in enumerate(sorted_list):
-        print(f"{index + 1}. product: {product}, price: ${price}")
-
-    return sorted_list
-
+    sort_order = sorted(products_list)
+    for index,(product,price) in sort_order:
+        print(f"{index}Product: {product}, Price: ${price}")
+    return sort_order
 
 
 def main():
