@@ -1,6 +1,3 @@
-import re
-import time
-from email_validator import validate_email as ev_validate_email, EmailNotValidError
 
 
 # Products available in the store by category
@@ -171,7 +168,6 @@ def main():
             print("something wrong, retry")
             continue
     display_categories()
-    time.sleep(0.5)
     print("Here are 4 options\n1.Select a product to buy\n2.Sort the products according to the price\n3.Go back to the category selection\n4.Finish shopping")
     
     #choose
